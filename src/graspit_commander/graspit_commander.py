@@ -514,4 +514,4 @@ class GraspitCommander(object):
         if result.result is ToggleCollisions._response_class.RESULT_SUCCESS:
             return
         elif result.result is ToggleCollisions._response_class.RESULT_INVALID_ID:
-            raise InvalidBodyIDException(id)
+            raise InvalidBodyIDException()
