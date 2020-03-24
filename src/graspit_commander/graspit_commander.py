@@ -509,4 +509,9 @@ class GraspitCommander(object):
         _wait_for_service(GraspitCommander.GRASPIT_NODE_NAME + 'toggleCollisions')
 
         serviceProxy = rospy.ServiceProxy(GraspitCommander.GRASPIT_NODE_NAME + 'toggleCollisions', ToggleCollisions)
-        serviceProxy(enableCollisions, id1, id2)
+        result = serviceProxy(enableCollisions, id1, id2)
+
+        if result.result is ToggleCollisions._response_class.RESULT_SUCCESS:
+            return
+        elif result.result is ToggleCollisions._response_class.RESULT_INVALID_ID:
+            raise InvalidBodyIDException(id)
