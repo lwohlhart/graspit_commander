@@ -45,6 +45,7 @@ from graspit_interface.srv import (
     SaveImage,
     SaveWorld,
     ToggleAllCollisions,
+    ToggleCollisions,
     ForceRobotDOF,
     MoveDOFToContacts
 )
@@ -502,3 +503,10 @@ class GraspitCommander(object):
 
         serviceProxy = rospy.ServiceProxy(GraspitCommander.GRASPIT_NODE_NAME + 'toggleAllCollisions', ToggleAllCollisions)
         serviceProxy(enableCollisions)
+    
+    @staticmethod
+    def toggleCollisions(enableCollisions, id1, id2):
+        _wait_for_service(GraspitCommander.GRASPIT_NODE_NAME + 'toggleCollisions')
+
+        serviceProxy = rospy.ServiceProxy(GraspitCommander.GRASPIT_NODE_NAME + 'toggleCollisions', ToggleCollisions)
+        serviceProxy(enableCollisions, id1, id2)
