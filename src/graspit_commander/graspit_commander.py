@@ -26,6 +26,7 @@ from graspit_interface.srv import (
     GetBodies,
     GetBody,
     SetBodyPose,
+    GetDistance,
     GetDynamics,
     SetDynamics,
     AutoGrasp,
@@ -208,6 +209,18 @@ class GraspitCommander(object):
             raise InvalidBodyPoseException()
         elif result.result is SetBodyPose._response_class.RESULT_ROBOT_IN_COLLISION:
             raise BodyCollisionException()
+
+    @staticmethod
+    def getDistance(id1, id2):
+        _wait_for_service(GraspitCommander.GRASPIT_NODE_NAME + 'getDistance')
+
+        serviceProxy = rospy.ServiceProxy(GraspitCommander.GRASPIT_NODE_NAME + 'getDistance', GetDistance)
+        distance = serviceProxy(id1, id2)
+
+        if distance.result is GetDistance._response_class.RESULT_SUCCESS:
+            return distance
+        elif distance.result is GetDistance._response_class.RESULT_INVALID_ID:
+            raise InvalidBodyIDException()
 
     @staticmethod
     def getDynamics():
